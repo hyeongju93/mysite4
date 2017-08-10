@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="user">
+	
+	
+	
+	<insert id="insert" parameterType="com.mysite.vo.UserVo">
+		<![CDATA[
+			insert into userr
+			values(seq_usesrs_no.nextval,
+					#{names},
+					#{email},
+					#{passwords},
+					#{gender} )
+		]]>
+	</insert>
+	
+	<select id="selectUserByEmailPw" parameterType="map" resultType="com.mysite.vo.UserVo">
+		<![CDATA[
+			select no,names
+			from userr
+			where email=#{email} 
+			and passwords=#{passwords}
+		]]>
+	</select>
+	
+	<select id="selectUserByNo" parameterType="int" resultType="com.mysite.vo.UserVo">
+		<![CDATA[
+			select no, names, gender
+			from userr
+			where no=#{no}
+		]]>
+	</select>
+	
+	<update id="update" parameterType="com.mysite.vo.UserVo">
+		
+		
+			<![CDATA[
+				update userr
+				set names=#{names},
+				gender=#{gender}
+			]]>
+				<if test="passwords !=null and passwords !='' ">
+				,passwords=#{passwords}
+				</if>
+			<![CDATA[	
+				where no=#{no}
+			]]>
+		
+		
+		
+	</update>
+</mapper>
