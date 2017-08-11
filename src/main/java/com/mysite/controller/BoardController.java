@@ -2,9 +2,6 @@ package com.mysite.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -57,6 +54,7 @@ public class BoardController {
 	
 	@RequestMapping(value="/modifyform",method=RequestMethod.GET)
 	public String modifyform() {
+		System.out.println();
 		/*여기서 content를 받아서 <br>을 replace 처리해서 \r\n으로 바꿔준다.*/
 		return "board/modifyform";
 	}

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="replyboard">
+	<select id="getlist" resultType="com.mysite.vo.ReplyBoardVo">
+		select rownum ,numb,names,hit,reg_date,title,user_num
+		from replyboard b,userr r 
+		where b.user_num=r.no
+		order by numb desc
+	
+	</select>
+	
+	<select id="getboard" parameterType="com.mysite.vo.ReplyBoardVo" resultType="com.mysite.vo.ReplyBoardVo">
+		<![CDATA[
+			select title,content,user_num,numb
+			from replyboard
+			where numb=#{numb}
+		]]>
+	</select>
+	
+	<insert id="insert" parameterType="com.mysite.vo.ReplyBoardVo">
+		insert into replyboard
+		values(seq_replyboard_no.nextval,#{title},#{content},0,sysdate,#{user_num},seq_replyboard_no.currval,
+		1,0,0,0)
+	
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		delete from replyboard
+		where numb=#{numb}
+	</delete>
+
+	<select id="search" resultType="com.mysite.vo.ReplyBoardVo">
+	<![CDATA[
+		select rownum ,numb,names,hit,reg_date,title,user_num
+		from replyboard b,userr r 
+		where b.user_num=r.no
+		and names like #{names}	
+	]]>
+	</select>
+	
+	<update id="count" parameterType="com.mysite.vo.ReplyBoardVo">
+		update replyboard
+		set hit=#{hit}+1
+		where numb=#{numb}
+	
+	</update>
+	
+	<update id="update" parameterType="com.mysite.vo.ReplyBoardVo">
+		update replyboard
+		set title=#{title}, content=#{content}
+		where numb=#{numb}
+	
+	</update>
+
+
+</mapper>

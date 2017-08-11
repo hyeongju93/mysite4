@@ -7,6 +7,9 @@
 		<c:if test="${!(empty sessionScope.authUser) }">
 			<li><a href="${pageContext.request.contextPath }/board/list">게시판</a></li>			<!-- 여기 고칠거2개 -->
 		</c:if>
+		<c:if test="${!(empty sessionScope.authUser) }">
+			<li><a href="${pageContext.request.contextPath }/replyboard/list">댓글게시판</a></li>			<!-- 여기 고칠거2개 -->
+		</c:if>
 	</ul>
 </div>
 <!-- /navigation -->
