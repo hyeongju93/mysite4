@@ -1,5 +1,7 @@
 package com.mysite.service;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,5 +31,11 @@ public class UserService {
 	
 	public int updateUser(UserVo userVo) {
 		return userDao.updateUser(userVo);
+	}
+	
+	public int logout(HttpSession session) {
+		session.removeAttribute("authUser");
+		session.invalidate();
+		return 0;
 	}
 }

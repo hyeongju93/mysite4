@@ -68,4 +68,33 @@ public class ReplyBoardDao {
 		return sqlSession.update("replyboard.update", replyboardvo);
 	}
 	
+	/*public int sendup(ReplyBoardVo replyboardvo) {
+		return sqlSession.update("replyboard.sendup",replyboardvo);
+	}*/
+	
+	public ReplyBoardVo inforeply(ReplyBoardVo replyboardvo) {
+		System.out.println("service");
+		return sqlSession.selectOne("replyboard.inforeply", replyboardvo);
+	}
+	
+	public int reply(ReplyBoardVo replyboardvo) {
+		System.out.println("dao");
+		return sqlSession.insert("replyboard.reply",replyboardvo);
+	}
+	
+	public int replyupdate(ReplyBoardVo replyboardvo) {
+		System.out.println("dao");
+		return sqlSession.update("replyboard.replyupdate",replyboardvo);
+	}
+	
+	public int reply2(ReplyBoardVo replyboardvo) {
+		System.out.println("dao");
+		return sqlSession.insert("replyboard.reply2",replyboardvo);
+	}
+	
+	public int replyupdate2(ReplyBoardVo replyboardvo) {
+		System.out.println("dao");
+		return sqlSession.update("replyboard.replyupdate2",replyboardvo);
+	}
+	
 }

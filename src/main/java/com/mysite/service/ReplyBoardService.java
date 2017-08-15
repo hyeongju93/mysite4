@@ -50,5 +50,39 @@ public class ReplyBoardService {
 		return replyboardao.update(replyboardvo);
 	}
 	
+	/*public int sendup(ReplyBoardVo replyboardvo) {
+		if(replyboardvo.getOrderno() >= 2) {
+			System.out.println("orderno가 2이상");
+			return 0;
+		}
+		System.out.println(replyboardvo.getOrderno());
+		System.out.println("order가 1임");
+		return replyboardao.sendup(replyboardvo);
+	}*/
+	
+	public ReplyBoardVo inforeply(ReplyBoardVo replyboardvo) {
+		System.out.println("service");
+		return replyboardao.inforeply(replyboardvo);
+	}
+	
+	public int reply(ReplyBoardVo replyboardvo) {
+		System.out.println("service");
+		return replyboardao.reply(replyboardvo);
+	}
+	
+	public int replyupdate(ReplyBoardVo replyboardvo) {
+		System.out.println("service");
+		return replyboardao.replyupdate(replyboardvo);
+	}
+	
+	public int reply2(ReplyBoardVo replyboardvo) {
+		System.out.println("service");
+		return replyboardao.reply2(replyboardvo);
+	}
+	
+	public int replyupdate2(ReplyBoardVo replyboardvo) {
+		System.out.println("service");
+		return replyboardao.replyupdate2(replyboardvo);
+	}
 	
 }

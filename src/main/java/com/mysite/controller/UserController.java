@@ -29,7 +29,6 @@ public class UserController {
 	
 	@RequestMapping(value="/join",method=RequestMethod.POST)
 	public String join(@ModelAttribute UserVo userVo) {
-		System.out.println(userVo);
 		userService.join(userVo);
 		return "user/joinsuccess";
 	}
@@ -44,8 +43,6 @@ public class UserController {
 						@RequestParam("passwords") String passwords,
 						HttpSession session) {
 		
-		System.out.println(email);
-		System.out.println(passwords);
 		UserVo authUser=userService.getUser(email,passwords);
 		
 		if(authUser != null) {
@@ -59,8 +56,7 @@ public class UserController {
 	
 	@RequestMapping(value="/logout",method=RequestMethod.GET)
 	public String logout(HttpSession session) {
-		session.removeAttribute("authUser");
-		session.invalidate();
+		userService.logout(session);
 		return "redirect:/main";
 	}
 	

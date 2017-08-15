@@ -2,17 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="replyboard">
-	<select id="getlist" resultType="com.mysite.vo.ReplyBoardVo">
-		select rownum ,numb,names,hit,reg_date,title,user_num
-		from replyboard b,userr r 
-		where b.user_num=r.no
-		order by numb desc
 	
+	<select id="getlist" resultType="com.mysite.vo.ReplyBoardVo">
+		select rownum ,numb,names,hit,reg_date,title,user_num,groupno,orderno,depth
+		from (select numb,names,hit,reg_date,title,user_num,groupno,orderno,depth
+				from replyboard b,userr r 
+				where b.user_num=r.no
+				order by groupno desc,orderno asc)
 	</select>
+	
 	
 	<select id="getboard" parameterType="com.mysite.vo.ReplyBoardVo" resultType="com.mysite.vo.ReplyBoardVo">
 		<![CDATA[
-			select title,content,user_num,numb
+			select title,content,user_num,numb,hit,orderno
 			from replyboard
 			where numb=#{numb}
 		]]>
@@ -22,8 +24,47 @@
 		insert into replyboard
 		values(seq_replyboard_no.nextval,#{title},#{content},0,sysdate,#{user_num},seq_replyboard_no.currval,
 		1,0,0,0)
-	
 	</insert>
+	
+	<insert id="reply" parameterType="com.mysite.vo.ReplyBoardVo">
+		insert into replyboard
+		values(seq_replyboard_no.nextval,#{title},#{content},0,sysdate,#{user_num},#{groupno},
+		seq_replycount_no.nextval,(#{depth}+1),0,0)
+	</insert>
+	
+	<update id="replyupdate" parameterType="com.mysite.vo.ReplyBoardVo">
+		update replyboard
+		set orderno=orderno+1
+		where orderno>=seq_replycount_no.nextval and groupno =#{groupno}
+	
+	</update>
+	
+	<insert id="reply2" parameterType="com.mysite.vo.ReplyBoardVo">
+		insert into replyboard
+		values(seq_replyboard_no.nextval,#{title},#{content},0,sysdate,#{user_num},#{groupno},
+		(#{orderno}+1),(#{depth}+1),seq_replycount_no.nextval,0)
+	</insert>
+	
+	<update id="replyupdate2" parameterType="com.mysite.vo.ReplyBoardVo">
+		update replyboard
+		set orderno=orderno+1
+		where orderno>=(#{orderno}+1) and groupno =#{groupno}
+	
+	</update>
+	
+	<select id="inforeply" parameterType="com.mysite.vo.ReplyBoardVo" resultType="com.mysite.vo.ReplyBoardVo">
+		<![CDATA[
+			select hit,user_num,groupno,orderno,depth
+			from replyboard
+			where numb=#{numb}
+		]]>
+	</select>
+	
+<!-- 	<update id="sendup" parameterType="com.mysite.vo.ReplyBoardVo">
+		update replyboard
+		set countsend=countsend+1
+		where numb=#{numb}
+	</update> -->
 	
 	<delete id="delete" parameterType="int">
 		delete from replyboard

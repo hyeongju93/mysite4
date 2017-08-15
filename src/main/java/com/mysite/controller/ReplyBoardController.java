@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,6 +35,32 @@ public class ReplyBoardController {
 		return "replyboard/list";
 	}
 	
+	@RequestMapping(value="/replyform",method=RequestMethod.GET)
+	public String replyform(@ModelAttribute ReplyBoardVo reply,Model model) {
+		System.out.println(reply);
+		ReplyBoardVo vo=replyboardservice.inforeply(reply);
+		System.out.println(vo); 
+		model.addAttribute("vo",vo);
+		return "replyboard/replyform";
+	}
+	
+	@RequestMapping(value="/reply",method=RequestMethod.POST)
+	public String reply(@ModelAttribute ReplyBoardVo replyboardvo) {
+		System.out.println("reply도착");
+		System.out.println(replyboardvo);
+		if(replyboardvo.getOrderno()==1) {
+		//	replyboardservice.replyupdate(replyboardvo);
+			replyboardservice.reply(replyboardvo);
+		} else {
+			replyboardservice.replyupdate2(replyboardvo);
+			replyboardservice.reply2(replyboardvo);
+			
+		}
+		
+		
+		return "redirect:/replyboard/list";
+	}
+	
 	@RequestMapping(value="/modifyform",method=RequestMethod.GET)
 	public String modifyform() {
 		System.out.println();
@@ -52,7 +79,7 @@ public class ReplyBoardController {
 	
 	@RequestMapping(value="/writeform",method=RequestMethod.GET)
 	public String writeform() {
-		
+	
 		return "replyboard/writeform";
 	}
 	
@@ -87,8 +114,8 @@ public class ReplyBoardController {
 		System.out.println(list);
 		model.addAttribute("list", list);
 		
-		
 		return "/replyboard/list";
 	}
+	
 	
 }

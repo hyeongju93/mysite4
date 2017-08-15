@@ -32,7 +32,11 @@
 					<c:forEach items="${list}" var="vo">
 					<tr>
 						<td>${vo.rownum }</td>
-						<td><a href="${pageContext.request.contextPath }/replyboard/read?hit=${vo.hit }&numb=${vo.numb }">${vo.title}</a></td>
+						<td><a href="${pageContext.request.contextPath }/replyboard/read?hit=${vo.hit }&numb=${vo.numb }">
+						<c:forEach var="i" begin="1" end="${vo.depth }" step="1">
+					 	<img  src="${pageContext.request.contextPath }/assets/images/reply.png"  width=15 height=15>
+						</c:forEach>
+						${vo.title}</a></td>
 						<td>${vo.names }</td>
 						<td>${vo.hit }</td>
 						<td>${vo.reg_date }</td>
