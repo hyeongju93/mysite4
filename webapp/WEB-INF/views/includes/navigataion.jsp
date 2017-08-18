@@ -4,6 +4,7 @@
 	<ul>
 		<li><a href="${pageContext.request.contextPath }/main">메인화면</a></li>
 		<li><a href="${pageContext.request.contextPath }/guestbook/list">방명록</a></li>				<!--여기 고칠거 2개  -->
+		<li><a href="${pageContext.request.contextPath }/guestbook/list-ajax">ajax방명록</a></li>	
 		<c:if test="${!(empty sessionScope.authUser) }">
 			<li><a href="${pageContext.request.contextPath }/board/list">게시판</a></li>			<!-- 여기 고칠거2개 -->
 		</c:if>

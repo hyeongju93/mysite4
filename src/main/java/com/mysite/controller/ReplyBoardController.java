@@ -2,18 +2,19 @@ package com.mysite.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mysite.service.ReplyBoardService;
 import com.mysite.vo.ReplyBoardVo;
-import com.mysite.vo.boardVo;
+import com.mysite.vo.UserVo;
 
 
 
@@ -36,10 +37,12 @@ public class ReplyBoardController {
 	}
 	
 	@RequestMapping(value="/replyform",method=RequestMethod.GET)
-	public String replyform(@ModelAttribute ReplyBoardVo reply,Model model) {
+	public String replyform(@ModelAttribute ReplyBoardVo reply,Model model,HttpSession session) {
 		System.out.println(reply);
 		ReplyBoardVo vo=replyboardservice.inforeply(reply);
 		System.out.println(vo); 
+		UserVo uservo=(UserVo)session.getAttribute("authUser");
+		vo.setUser_num(uservo.getNo());
 		model.addAttribute("vo",vo);
 		return "replyboard/replyform";
 	}

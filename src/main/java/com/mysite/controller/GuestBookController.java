@@ -23,6 +23,12 @@ public class GuestBookController {
 	@Autowired
 	private GuestbookService guestbookService;
 	
+	@RequestMapping(value="/list-ajax",method=RequestMethod.GET)
+	public String listAjax() {
+		
+		return "guestbook/list-ajax";
+	}
+	
 	@RequestMapping(value="/deleteform",method=RequestMethod.GET)
 	public String deleteform(@RequestParam("no") int no,Model model) {
 		model.addAttribute("no", no);
