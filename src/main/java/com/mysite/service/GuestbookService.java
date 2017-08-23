@@ -26,5 +26,16 @@ public class GuestbookService {
 		System.out.println("서비스");
 		return guestbookdao.delete(no);
 	}
+	//아래 예제 굉장히 중요한 예제 꼭 기얼할것!!
+	public guestbookVo writeVo(guestbookVo guestbookvo) {
+		System.out.println("전: "+guestbookvo.getNo());
+		int no=guestbookdao.insertNo(guestbookvo);
+		System.out.println("후: "+guestbookvo.getNo());
+		System.out.println("no: "+no);
+		guestbookVo guestbookvo2=guestbookdao.selectByNo(no);
+		return guestbookvo2;
+	}
+	
+	
 
 }

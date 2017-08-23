@@ -17,6 +17,24 @@
 		]]>
 	</insert>
 	
+	<!--selectKey를 하는 순간 keyProperty에 있는 값에 대입을 해줌 그래서 값이 생김  -->
+	<insert id="insertNo" parameterType="com.mysite.vo.guestbookVo">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			select seq_guestbook_no.nextval from dual	
+		</selectKey>
+		<![CDATA[
+			insert into guestbook(no,name,password,content)
+			values(#{no}, #{name}, #{password}, #{content})			
+		]]>
+	</insert>
+	
+	<select id="selectByNo" parameterType="int" resultType="com.mysite.vo.guestbookVo">
+		<![CDATA[
+			select no, name, password, content, leg_date 
+			from guestbook
+			where no=#{no}		
+		]]>
+	</select>
 	<delete id="delete" parameterType="int">
 		<![CDATA[
 			delete from guestbook

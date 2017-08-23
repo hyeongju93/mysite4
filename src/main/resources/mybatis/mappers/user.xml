@@ -46,9 +46,13 @@
 				</if>
 			<![CDATA[	
 				where no=#{no}
-			]]>
-		
-		
-		
+			]]>		
 	</update>
+	
+	<select id="check" parameterType="String" resultType="com.mysite.vo.UserVo">
+		select names
+		from userr
+		where email=#{email}
+	
+	</select>
 </mapper>

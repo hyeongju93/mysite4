@@ -16,8 +16,6 @@ public class UserService {
 	
 	public int join(UserVo userVo) {
 		return userDao.insert(userVo);
-		
-		
 	}
 	
 	
@@ -37,5 +35,10 @@ public class UserService {
 		session.removeAttribute("authUser");
 		session.invalidate();
 		return 0;
+	}
+	
+	public UserVo check(String email) {
+		System.out.println("서비스 들어옴");
+		return userDao.check(email);
 	}
 }

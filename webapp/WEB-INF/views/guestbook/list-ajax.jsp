@@ -21,43 +21,33 @@
 		<div id="content">
 			<div id="guestbook">
 				
-					<form action="${pageContext.request.contextPath }/guestbook/add" method="post">
+					<form id="write-form" action="${pageContext.request.contextPath }/guestbook/add" method="post">
 						<table border=1 width=500>
 							<tr>
 								<td>이름</td>
-								<td><input type="text" name="name"></td>
+								<td><input id="name"type="text" name="name"></td>
 								<td>비밀번호</td>
-								<td><input type="password" name="password"></td>
+								<td><input id="password" type="password" name="password"></td>
 
 
 							</tr>
 							<tr>
-								<td colspan=4><textarea name="content" cols=60 rows=5></textarea></td>
+								<td colspan=4><textarea id="content" name="content" cols=60 rows=5></textarea></td>
 							</tr>
 							<tr>
 								<td colspan=4 align=right><input type="submit" VALUE=" 확인 "></td>
 							</tr>
 						</table>
+						
 					</form>
-					<br />
 					
-					<c:forEach items="${list}" var="vo">
-					<table width=510 border=1>
-						<tr>
-							<td>"${vo.no}"</td>
-							<td>${vo.name}</td>
-							<td>${vo.leg_date}</td>
-							<td><a href="${pageContext.request.contextPath }/guestbook/deleteform?no=${vo.no }">삭제</a></td>
-
-						</tr>
-						<tr>
-							<td colspan=4>${vo.content}</td>
-						</tr>
-					</table>
-					</c:forEach>
 					
-					<br />
+					
+					
+				<ul id="guestbook-list">
 				
+				
+				</ul>
 			</div>
 			<!-- /user -->
 		</div>
@@ -73,26 +63,100 @@
 
 <script type="text/javascript">	
 $(document).ready(function(){
+	//리스트 출력
+	fetchList();
 	
-
-		$.ajax({
-			
-			url : "${pageContext.request.contextPath }/api/gb/list",		
+	//저장버튼 클릭
+	$("#write-form").on("submit",function(){
+		event.preventDefault(); 
+		console.log("전송버튼클릭");
+		var name=$("#name").val();
+		var password=$("[name=password]").val();
+		var content=$("[name=content]").val();
+		
+		var guestbookvo ={
+			name : $("#name").val(),
+			password : $("[name=password]").val(),
+			content : $("[name=content]").val()
+		}
+		/*json방식  */
+		$.ajax({	
+			url : "${pageContext.request.contextPath }/api/gb/add",		
 			type : "post",
-			/* contentType : "application/json",
-			data : {name: ”홍길동"}, */
- 
+			/*contentType : "application/json",*/
+			contentType : "application/json",
+			data : JSON.stringify(guestbookvo),
+			/* data : guestbookvo,  */
+
 		 	dataType : "json",
-			success : function(guestbookVo){
-				console.log(guestbookVo);
-		 		/*성공시 처리해야될 코드 작성*/
+			success : function(guestbookvo){	//list-ajax에서 보낸 것을 guestbook으로 받음
+				console.log("성공");
+		 		console.log(guestbookvo);
+		 		render(guestbookvo,"up");
+			/*성공시 처리해야될 코드 작성*/
+		 		
 			},
 			error : function(XHR, status, error) {
 				console.error(status + " : " + error);
 			}
 		});
-	
+		
+	});
 	
 });
+
+function fetchList(){
+	$.ajax({
+		
+		url : "${pageContext.request.contextPath }/api/gb/list",		
+		type : "post",
+		/* contentType : "application/json",	이 방식은 json으로 보낸다는 뜻
+		data : {name: ”홍길동"}, */
+
+	 	dataType : "json",
+		success : function(guestbookList){	//list-ajax에서 보낸 것을 guestbook으로 받음
+			for(var i=0;i<guestbookList.length;i++){
+				render(guestbookList[i],"down");
+			} 
+			console.log(guestbookList);
+	 		/*성공시 처리해야될 코드 작성*/
+	 		
+		},
+		error : function(XHR, status, error) {
+			console.error(status + " : " + error);
+		}
+	});
+}
+
+function render(guestbookvo,updown){
+	var str ="";
+	str+="<li>";
+	str+="	<table>";
+	str+="		<tr>";
+	str+="			<td>["+guestbookvo.no+"]</td>";
+	str+="			<td>["+guestbookvo.name+"]</td>";
+	str+="			<td>["+guestbookvo.leg_date+"]</td>";
+	str+="			<td><a href='#'>삭제<a/></td>";
+	str+="		</tr>";
+	str+="		<tr>";
+	str+="			<td colspan=4>["+guestbookvo.content+"]</td>";
+	str+="		</tr>";
+	str+="		</tr>";
+	str+="	</table>";
+	str+="	<br/>";	
+	str+="</li>";
+	
+	if(updown == "up"){
+		$("#guestbook-list").prepend(str);	
+	}else if(updown=="down"){
+		$("#guestbook-list").append(str);	
+	} else{
+		
+	}
+	
+}
+
+
+
 	</script>	
 </html>

@@ -36,4 +36,11 @@ public class UserDao {
 		return sqlSession.update("user.update",userVo);
 	}
 	
+	public UserVo check(String email) {
+		System.out.println("다오들어옴");
+		UserVo vo=sqlSession.selectOne("user.check",email);
+		System.out.println(vo);
+		return vo;
+	}
+	
 }
